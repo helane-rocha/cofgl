@@ -22,6 +22,7 @@
       for (i = _i = 1; 1 <= step_iterations ? _i <= step_iterations : _i >= step_iterations; i = 1 <= step_iterations ? ++_i : --_i) {
         _ref = cofgl.game.geometry.step(this.q, this.p, this.dir, dt / step_iterations), this.q = _ref[0], this.p = _ref[1], this.dir = _ref[2];
       }
+      this.dir = this.dir.plus(this.p);
       return this.dir.normalize();
     };
 

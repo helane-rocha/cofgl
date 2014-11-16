@@ -18,6 +18,7 @@ class SpaceShip
     #console.debug "p = #{@p}"
     for i in [1 .. step_iterations]
       [@q, @p, @dir] = cofgl.game.geometry.step(@q, @p, @dir, dt/step_iterations)
+    @dir = @dir.plus @p
     @dir.normalize()
 
   rotateLeft: ->
