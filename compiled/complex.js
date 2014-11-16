@@ -21,6 +21,13 @@
       return new Complex(-1 * this.x, -1 * this.y);
     };
 
+    Complex.prototype.normalize = function() {
+      this.magnitude = this.x * this.x + this.y * this.y;
+      this.x = this.x / Math.sqrt(this.magnitude);
+      this.y = this.y / Math.sqrt(this.magnitude);
+      return this.magnitude = 1.0;
+    };
+
     Complex.prototype.inverse = function() {
       if (this.magnitude === 0) {
         throw Error("no inverse");

@@ -3,6 +3,7 @@
   var Game, initEngineAndGame, keyMapping, root;
 
   keyMapping = {
+    40: 'break',
     38: 'thurst',
     37: 'rotateLeft',
     39: 'rotateRight'
@@ -18,10 +19,31 @@
       }
     }
 
+    Game.prototype.restart = function(geometry) {
+      this.geometry = this.geometries[geometry];
+      this.spaceShip = new cofgl.SpaceShip();
+      return this.world = new cofgl.World(this.spaceShip);
+    };
+
     Game.prototype.initGame = function() {
-      this.spaceShip = new cofgl.SpaceShip;
-      this.world = new cofgl.World(this.spaceShip);
-      return this.processor = new cofgl.Processor(cofgl.resmgr.resources['shaders/nothing']);
+      this.processor = new cofgl.Processor(cofgl.resmgr.resources['shaders/nothing']);
+      this.geometries = {
+        euclidean: {
+          shader: cofgl.resmgr.resources['shaders/euclidean'],
+          step: cofgl.euclidStep
+        },
+        hyperbolic: {
+          shader: cofgl.resmgr.resources['shaders/hyperbolic'],
+          step: cofgl.poincareStep
+        },
+        elliptic: {
+          shader: cofgl.resmgr.resources['shaders/elliptic'],
+          step: cofgl.kleinStep
+        }
+      };
+      this.geometry = this.geometries.euclidean;
+      this.spaceShip = new cofgl.SpaceShip();
+      return this.world = new cofgl.World(this.spaceShip);
     };
 
     Game.prototype.initEventHandlers = function() {
@@ -70,16 +92,16 @@
 
     Game.prototype.updateGame = function(dt) {
       if (this.actions.rotateRight) {
-        console.debug("rotateRight");
         this.spaceShip.rotateRight();
       }
       if (this.actions.rotateLeft) {
-        console.debug("rotateLeft");
         this.spaceShip.rotateLeft();
       }
       if (this.actions.thurst) {
-        console.debug("thurst");
         this.spaceShip.thurst();
+      }
+      if (this.actions["break"]) {
+        this.spaceShip["break"]();
       }
       this.spaceShip.update(dt);
       return this.world.update(dt);
@@ -103,7 +125,10 @@
     cofgl.engine = new cofgl.Engine(canvas, debug);
     cofgl.resmgr = cofgl.makeDefaultResourceManager();
     cofgl.game = new Game;
-    return cofgl.game.run();
+    cofgl.game.run();
+    return $("input[name='geometry']").change(function() {
+      return cofgl.game.restart(this.value);
+    });
   };
 
   $(document).ready(function() {
@@ -115,6 +140,8 @@
   root = self.cofgl != null ? self.cofgl : self.cofgl = {};
 
   root.game = null;
+
+  root.geometries = null;
 
   root.debugPanel = null;
 

@@ -1,4 +1,5 @@
 keyMapping =
+  40:     'break'        # Arrow Down
   38:     'thurst'        # Arrow Up
   37:     'rotateLeft'      # Arrow Left
   39:     'rotateRight'     # Arrow Right
@@ -10,10 +11,26 @@ class Game
     for code, action of keyMapping
       @actions[action] = false
 
-  initGame: ->
-    @spaceShip = new cofgl.SpaceShip
+  restart: (geometry) ->
+    @geometry = @geometries[geometry]
+    @spaceShip = new cofgl.SpaceShip()
     @world = new cofgl.World(@spaceShip)
+
+  initGame: ->
     @processor = new cofgl.Processor cofgl.resmgr.resources['shaders/nothing']
+    @geometries =
+      euclidean:
+        shader: cofgl.resmgr.resources['shaders/euclidean']
+        step: cofgl.euclidStep
+      hyperbolic:
+        shader: cofgl.resmgr.resources['shaders/hyperbolic']
+        step: cofgl.poincareStep
+      elliptic:
+        shader: cofgl.resmgr.resources['shaders/elliptic']
+        step: cofgl.kleinStep
+    @geometry = @geometries.euclidean
+    @spaceShip = new cofgl.SpaceShip()
+    @world = new cofgl.World(@spaceShip)
 
 
   initEventHandlers: ->
@@ -48,14 +65,17 @@ class Game
 
   updateGame: (dt) ->
     if @actions.rotateRight
-      console.debug "rotateRight"
+      #console.debug "rotateRight"
       @spaceShip.rotateRight()
     if @actions.rotateLeft
-      console.debug "rotateLeft"
+      #console.debug "rotateLeft"
       @spaceShip.rotateLeft()
     if @actions.thurst
-      console.debug "thurst"
+      #console.debug "thurst"
       @spaceShip.thurst()
+    if @actions.break
+      #console.debug "break"
+      @spaceShip.break()
     @spaceShip.update dt
     @world.update dt
 
@@ -75,6 +95,7 @@ initEngineAndGame = (selector, debug) ->
   cofgl.resmgr = cofgl.makeDefaultResourceManager()
   cofgl.game = new Game
   cofgl.game.run()
+  $("input[name='geometry']").change( -> cofgl.game.restart this.value )
 
 
 $(document).ready ->
@@ -84,6 +105,7 @@ $(document).ready ->
 
 root = self.cofgl ?= {}
 root.game = null
+root.geometries = null
 root.debugPanel = null
 root.resmgr = null
 root.engine = null

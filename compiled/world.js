@@ -5,9 +5,10 @@
   World = (function() {
     function World(spaceShip) {
       this.spaceShip = spaceShip;
-      this.shader = cofgl.resmgr.resources['shaders/hyperbolic'];
+      this.shader = cofgl.game.geometry.shader;
       this.bgColor = cofgl.floatColorFromHex('#F2F3DC');
       this.vbo = cofgl.makeQuadVBO();
+      this.spaceShip.world = this;
     }
 
     World.prototype.update = function(dt) {};
@@ -17,7 +18,7 @@
         _this = this;
       q = this.spaceShip.q;
       p = this.spaceShip.p;
-      dir = this.spaceShip.dirVec();
+      dir = this.spaceShip.dir;
       cofgl.clear(this.bgColor);
       return cofgl.withContext([this.shader, this.spaceShip.texture], function() {
         _this.shader.uniform2f("uq", q.x, q.y);
