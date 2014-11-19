@@ -21,10 +21,10 @@ class Game
     @geometries =
       euclidean:
         shader: cofgl.resmgr.resources['shaders/euclidean']
-        step: cofgl.euclidStep
+        step: cofgl.euclidTorusStep
       hyperbolic:
         shader: cofgl.resmgr.resources['shaders/hyperbolic']
-        step: cofgl.poincareStep
+        step: cofgl.poincareBitorusStep
       elliptic:
         shader: cofgl.resmgr.resources['shaders/elliptic']
         step: cofgl.kleinStep

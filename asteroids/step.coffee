@@ -1,3 +1,32 @@
+sqr2 = Math.sqrt(2.0)
+sqr4 = Math.sqrt(sqr2)
+l = (sqr4+1.0/sqr4)/2.0
+C = l/Math.cos(Math.PI/8.0)
+R = C*Math.tan(Math.PI/8.0)
+
+octagon = [
+  new cofgl.Complex(C,0.0),
+  new cofgl.Complex(C/sqr2,C/sqr2),
+  new cofgl.Complex(0.0,C),
+  new cofgl.Complex(-C/sqr2,C/sqr2),
+  new cofgl.Complex(-C,0.0),
+  new cofgl.Complex(-C/sqr2,-C/sqr2),
+  new cofgl.Complex(0.0,-C),
+  new cofgl.Complex(C/sqr2,-C/sqr2)
+]
+
+octagonReflection = [
+  new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(0,1))
+]
+
+octagonGluing = [2, 3, 0, 1, 6, 7, 4, 5]
 
 # a = b x - c (x^2 + y^2)
 # d = e y - f (x^2 + y^2)
@@ -30,11 +59,16 @@ solveSystem = (a, b, c, d, f) ->
       if f==0.0
         [a/b, d/b, a/b, d/b]
       else
-        [a/b, (p2 + f*sqdelta)/den, a/b, (p2 - f*sqdelta)/den]
+        [a/b, (p2 - f*sqdelta)/den, a/b, (p2 + f*sqdelta)/den]
 
 euclidStep = (q, p, dir, h) ->
   q.x = q.x + h*p.x/2.0
   q.y = q.y + h*p.y/2.0
+  [q, p, dir]
+
+
+euclidTorusStep = (q, p, dir, h) ->
+  [q, p, dir] = euclidStep(q, p, dir, h)
   if q.x > 1.0
     q.x = q.x - 2.0
   if q.x < -1.0
@@ -46,31 +80,23 @@ euclidStep = (q, p, dir, h) ->
   [q, p, dir]
 
 poincareStep = (q, p, dir, h) ->
-  #console.debug "q = #{q}"
-  #console.debug "p = #{p}"
-  #console.debug "h = #{h}"
+  #console.debug "Step In: #{q},#{p},#{dir},#{h}"
   D = 1.0 - q.x*q.x - q.y*q.y
   D2h = D*D*h
   a = D*D2h*p.x
   b = 8.0*D
   c = 16.0*q.x
   d = D*D2h*p.y
-  #e = 8.0*D 
+  #e = 8.0*D
   f = 16.0*q.y
   [dqx, dqy] = solveSystem(a, b, c, d, f)
   q.x = q.x + dqx
   q.y = q.y + dqy
   p.x = 8.0*dqx/D2h
   p.y = 8.0*dqy/D2h
-  if q.x > 1
-    q.x = q.x - 2.0
-  if q.x < -1
-    q.x = q.x + 2.0
-  if q.y > 1
-    q.y = q.y - 2.0
-  if q.y < -1
-    q.y = q.y + 2.0
+  #console.debug "Step Out: #{q},#{p},#{dir},#{h}"
   [q, p, dir]
+
 
 kleinStep = (q, p, dir, h) ->
   #console.debug "q = #{q}"
@@ -82,7 +108,7 @@ kleinStep = (q, p, dir, h) ->
   b = 8.0*D
   c = -16.0*q.x
   d = D*D2h*p.y
-  #e = 8.0*D 
+  #e = 8.0*D
   f = -16.0*q.y
   [dqx, dqy] = solveSystem(a, b, c, d, f)
   q.x = q.x + dqx
@@ -107,7 +133,28 @@ kleinStep = (q, p, dir, h) ->
     q = new cofgl.Complex(-q.x/n2,-q.y/n2)
   [q, p, dir]
 
+dist = (a, b) -> Math.sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y))
+
+poincareBitorusStep = (q, p, dir, h) ->
+  [q, p, dir] = poincareStep(q, p, dir, h)
+  for c,i in octagon
+    if dist(q,c)<R
+      #console.debug "Disk In: #{q},#{p}"
+      refl = octagonReflection[i]
+      p = refl.D(q, p)
+      dir = refl.D(q, dir)
+      q = refl.F(q)
+      inv = new cofgl.Inversion(octagon[octagonGluing[i]], R)
+      p = inv.D(q, p)
+      dir = inv.D(q, dir)
+      q = inv.F(q)
+      #console.debug "Disk Out: #{q},#{p}"
+      break
+  [q, p, dir]
+
 root = self.cofgl ?= {}
 root.poincareStep = poincareStep
 root.kleinStep = kleinStep
 root.euclidStep = euclidStep
+root.euclidTorusStep = euclidTorusStep
+root.poincareBitorusStep = poincareBitorusStep
