@@ -23,6 +23,17 @@ vec2 inv_trans(vec2 z, vec2 a, vec2 d) {
     return z;
 }
 
+bool inside_tex(vec2 zn, vec2 a, vec2 d) {
+    float m;
+    zn=inv_trans(zn,a,d);
+    m=max(abs(zn.x),abs(zn.y));
+    if(m<=1.0) {
+        gl_FragColor = texture2D(uTexture,0.5*(zn+1.0));
+        return true;
+    }
+    return false;
+}
+
 void main(void)
 {
     vec2 z=vCoord;
@@ -30,40 +41,12 @@ void main(void)
     vec2 a=uq;
     float m=max(abs(z.x),abs(z.y));
     if(m>0.5) {
-        vec2 zn;
-        float m;
-        zn=z+vec2(2.0,0.0);
-        zn=inv_trans(zn,a,d);
-        m=max(abs(zn.x),abs(zn.y));
-        if(m<=1.0) {
-            gl_FragColor = texture2D(uTexture,0.5*(zn+1.0));
-            return;
-        }
-        zn=z-vec2(2.0,0.0);
-        zn=inv_trans(zn,a,d);
-        m=max(abs(zn.x),abs(zn.y));
-        if(m<=1.0) {
-            gl_FragColor = texture2D(uTexture,0.5*(zn+1.0));
-            return;
-        }
-        zn=z+vec2(0.0,2.0);
-        zn=inv_trans(zn,a,d);
-        m=max(abs(zn.x),abs(zn.y));
-        if(m<=1.0) {
-            gl_FragColor = texture2D(uTexture,0.5*(zn+1.0));
-            return;
-        }
-        zn=z-vec2(0.0,2.0);
-        zn=inv_trans(zn,a,d);
-        m=max(abs(zn.x),abs(zn.y));
-        if(m<=1.0) {
-            gl_FragColor = texture2D(uTexture,0.5*(zn+1.0));
-            return;
-        }
+        if(inside_tex(z+vec2(2.0,0.0), a, d)) return;
+        if(inside_tex(z-vec2(2.0,0.0), a, d)) return;
+        if(inside_tex(z+vec2(0.0,2.0), a, d)) return;
+        if(inside_tex(z-vec2(0.0,2.0), a, d)) return;
     }
-    z=inv_trans(z,a,d);
-    m=max(abs(z.x),abs(z.y));
-    if(m<=1.0)
-      gl_FragColor = texture2D(uTexture,0.5*(z+1.0));
+    inside_tex(z, a, d);
 }
+
 #endif

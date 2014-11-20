@@ -64,6 +64,7 @@
       this.offsetX = offsetX;
       this.offsetY = offsetY;
       this.parent = null;
+      this.name = "uTexture";
     }
 
     Texture.prototype.bind = function() {
@@ -73,7 +74,7 @@
       gl.bindTexture(gl.TEXTURE_2D, this.id);
       shader = cofgl.Shader.top();
       if (shader) {
-        return shader.uniform1i("uTexture", 0);
+        return shader.uniform1i(this.name, this.unit);
       }
     };
 

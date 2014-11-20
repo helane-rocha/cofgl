@@ -9,6 +9,16 @@
       this.bgColor = cofgl.floatColorFromHex('#F2F3DC');
       this.vbo = cofgl.makeQuadVBO();
       this.spaceShip.world = this;
+      /*
+      @background = new cofgl.FrameBufferObject
+      @background.texture.name = "uBackground"
+      @background.texture.unit = 1
+      backgroundShader = cofgl.resmgr.resources['shaders/hyperbolic_bg']
+      cofgl.withContext [@background, backgroundShader], =>
+        cofgl.clear @bgColor
+        @vbo.draw()
+      */
+
     }
 
     World.prototype.update = function(dt) {};

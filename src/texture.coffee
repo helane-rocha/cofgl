@@ -50,6 +50,7 @@ class Texture extends cofgl.ContextObject
     @offsetX = offsetX
     @offsetY = offsetY
     @parent = null
+    @name = "uTexture"
 
   bind: ->
     {gl} = cofgl.engine
@@ -57,7 +58,7 @@ class Texture extends cofgl.ContextObject
     gl.bindTexture gl.TEXTURE_2D, @id
     shader = cofgl.Shader.top()
     if shader
-      shader.uniform1i "uTexture", 0
+      shader.uniform1i @name, @unit
 
   unbind: ->
     {gl} = cofgl.engine
@@ -73,7 +74,7 @@ class Texture extends cofgl.ContextObject
     facY = @height / @storedHeight
     offX = @offsetX / @storedWidth
     offY = @offsetY / @storedHeight
-    
+
     rv = new Array coords.length
     for coord, idx in coords
       if idx % 2 == 0

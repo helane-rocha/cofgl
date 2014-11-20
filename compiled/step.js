@@ -14,9 +14,25 @@
 
   octagon = [new cofgl.Complex(C, 0.0), new cofgl.Complex(C / sqr2, C / sqr2), new cofgl.Complex(0.0, C), new cofgl.Complex(-C / sqr2, C / sqr2), new cofgl.Complex(-C, 0.0), new cofgl.Complex(-C / sqr2, -C / sqr2), new cofgl.Complex(0.0, -C), new cofgl.Complex(C / sqr2, -C / sqr2)];
 
-  octagonReflection = [new cofgl.ReflectionOrigin(new cofgl.Complex(1, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(0, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(1, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(0, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(1, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(0, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(1, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(0, 1))];
+  octagonReflection = [new cofgl.ReflectionOrigin(new cofgl.Complex(0, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(-1, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(1, 0)), new cofgl.ReflectionOrigin(new cofgl.Complex(1, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(0, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(-1, 1)), new cofgl.ReflectionOrigin(new cofgl.Complex(1, 0)), new cofgl.ReflectionOrigin(new cofgl.Complex(1, 1))];
 
-  octagonGluing = [2, 3, 0, 1, 6, 7, 4, 5];
+  octagonGluing = [4, 5, 6, 7, 0, 1, 2, 3];
+
+  /*
+  octagonReflection = [
+    new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+    new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
+    new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+    new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
+    new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+    new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
+    new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+    new cofgl.ReflectionOrigin(new cofgl.Complex(0,1))
+  ]
+  
+  octagonGluing = [2, 3, 0, 1, 6, 7, 4, 5]
+  */
+
 
   solveSystem = function(a, b, c, d, f) {
     var b2, delta, den, g, h, p1, p2, sqdelta;

@@ -16,6 +16,21 @@ octagon = [
 ]
 
 octagonReflection = [
+  new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(-1,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(1,0)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(-1,1)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(1,0)),
+  new cofgl.ReflectionOrigin(new cofgl.Complex(1,1))
+]
+
+octagonGluing = [4, 5, 6, 7, 0, 1, 2, 3]
+
+
+###
+octagonReflection = [
   new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
   new cofgl.ReflectionOrigin(new cofgl.Complex(0,1)),
   new cofgl.ReflectionOrigin(new cofgl.Complex(1,1)),
@@ -27,6 +42,8 @@ octagonReflection = [
 ]
 
 octagonGluing = [2, 3, 0, 1, 6, 7, 4, 5]
+###
+
 
 # a = b x - c (x^2 + y^2)
 # d = e y - f (x^2 + y^2)
