@@ -40,7 +40,7 @@ void main(void)
     vec2 a=uq;
     float l=length(z);
     if(l>=1.0) {
-        gl_FragColor = vec4(1.0,0.0,0.0,0.5);
+        gl_FragColor = vec4(1.0,0.3,0.0,0.5);
         return;
     }
     if(l>0.7) {

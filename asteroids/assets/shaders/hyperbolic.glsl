@@ -85,7 +85,7 @@ void main(void)
     octagon_gluing[6]=octagon[2];
     octagon_gluing[7]=octagon[3];
     if(length(z)>=1.0) {
-        gl_FragColor = vec4(1.0,0.0,0.0,0.5);
+        gl_FragColor = vec4(1.0,0.3,0.0,0.5);
         return;
     }
     for(int i=0;i<8;i++) {
