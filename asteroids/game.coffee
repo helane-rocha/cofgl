@@ -31,6 +31,8 @@ class Game
     @geometry = @geometries.euclidean
     @spaceShip = new cofgl.SpaceShip()
     @world = new cofgl.World(@spaceShip)
+    {gl} = cofgl.engine
+    gl.disable gl.DEPTH_TEST
 
 
   initEventHandlers: ->

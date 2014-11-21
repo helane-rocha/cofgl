@@ -46,7 +46,8 @@ void main(void)
         if(inside_tex(z+vec2(0.0,2.0), a, d)) return;
         if(inside_tex(z-vec2(0.0,2.0), a, d)) return;
     }
-    inside_tex(z, a, d);
+    if(!inside_tex(z, a, d)) 
+        discard;
 }
 
 #endif

@@ -104,7 +104,8 @@ void main(void)
         }
     }
     //gl_FragColor = texture2D(uBackground,0.5*(z+1.0));
-    inside_tex(z, a, d);
+    if(!inside_tex(z, a, d)) 
+        discard;
 }
 
 #endif

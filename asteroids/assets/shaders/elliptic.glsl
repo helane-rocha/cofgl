@@ -46,7 +46,8 @@ void main(void)
     if(l>0.7) {
         if(inside_tex(-z/(l*l), a, d)) return;
     }
-    inside_tex(z, a, d);
+    if(!inside_tex(z, a, d)) 
+        discard;
 }
 
 #endif
