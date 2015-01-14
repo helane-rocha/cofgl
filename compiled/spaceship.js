@@ -6,6 +6,7 @@
 
   SpaceShip = (function() {
     function SpaceShip() {
+      var ang;
       this.texture = cofgl.Texture.fromImage(cofgl.resmgr.resources['space/spaceship'], {
         mipmaps: true,
         filtering: 'LINEAR'
@@ -13,8 +14,9 @@
       this.q = new cofgl.Complex(0.0, 0.0);
       this.p = new cofgl.Complex(0.0, 0.0);
       this.dir = new cofgl.Complex(1.0, 0.0);
-      this.left = new cofgl.Complex(Math.cos(0.05), Math.sin(0.05));
-      this.right = new cofgl.Complex(Math.cos(-0.05), Math.sin(-0.05));
+      ang = Math.PI / 180 * 5;
+      this.left = new cofgl.Complex(Math.cos(ang), Math.sin(ang));
+      this.right = new cofgl.Complex(Math.cos(-ang), Math.sin(-ang));
     }
 
     SpaceShip.prototype.update = function(dt) {

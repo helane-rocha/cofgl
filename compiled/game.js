@@ -26,6 +26,7 @@
     };
 
     Game.prototype.initGame = function() {
+      var gl;
       this.processor = new cofgl.Processor(cofgl.resmgr.resources['shaders/nothing']);
       this.geometries = {
         euclidean: {
@@ -43,7 +44,9 @@
       };
       this.geometry = this.geometries.euclidean;
       this.spaceShip = new cofgl.SpaceShip();
-      return this.world = new cofgl.World(this.spaceShip);
+      this.world = new cofgl.World(this.spaceShip);
+      gl = cofgl.engine.gl;
+      return gl.disable(gl.DEPTH_TEST);
     };
 
     Game.prototype.initEventHandlers = function() {

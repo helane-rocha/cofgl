@@ -10,8 +10,9 @@ class SpaceShip
     @q = new cofgl.Complex(0.0,0.0)
     @p = new cofgl.Complex(0.0,0.0)
     @dir = new cofgl.Complex(1.0,0.0)
-    @left = new cofgl.Complex(Math.cos(0.05),Math.sin(0.05))
-    @right = new cofgl.Complex(Math.cos(-0.05),Math.sin(-0.05))
+    ang = Math.PI/180 * 5
+    @left = new cofgl.Complex(Math.cos(ang),Math.sin(ang))
+    @right = new cofgl.Complex(Math.cos(-ang),Math.sin(-ang))
 
   update: (dt) ->
     #console.debug "q = #{@q}"
