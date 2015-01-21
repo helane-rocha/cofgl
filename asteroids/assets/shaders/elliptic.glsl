@@ -23,13 +23,25 @@ vec2 inv_trans(vec2 z, vec2 a, vec2 d) {
     return z;
 }
 
-bool inside_tex(vec2 zn, vec2 a, vec2 d) {
+
+vec2 glue(vec2 z, float l) {
+    return -z/(l*l);
+}
+
+bool inside_tex(vec2 zn, vec2 a, vec2 d, sampler2D tex) {
     zn=inv_trans(zn,a,d);
     float m=max(abs(zn.x),abs(zn.y));
     if(m<=1.0) {
-        gl_FragColor = texture2D(uTexture,0.5*(zn+1.0));
+        gl_FragColor = texture2D(tex,0.5*(zn+1.0));
         return true;
     }
+    return false;
+}
+
+bool tex_glue(vec2 z, vec2 a, vec2 d, sampler2D tex) {
+    float l=length(z);
+    if(inside_tex(glue(z,l), a, d, tex)) return true;
+    if(inside_tex(z, a, d, tex)) return true;
     return false;
 }
 
@@ -43,11 +55,7 @@ void main(void)
         gl_FragColor = vec4(1.0,0.3,0.0,0.5);
         return;
     }
-    if(l>0.7) {
-        if(inside_tex(-z/(l*l), a, d)) return;
-    }
-    if(!inside_tex(z, a, d)) 
-        discard;
+    tex_glue(z, a, d, uTexture);
 }
 
 #endif
