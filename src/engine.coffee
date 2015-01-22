@@ -39,7 +39,8 @@ class Engine
       .hide()
     @throbberLevel = 0
 
-    @frameTimeDisplay = cofgl.debugPanel.addDisplay 'Frame time'
+    #@frameTimeDisplay = cofgl.debugPanel.addDisplay 'Frame time'
+    @FPSDisplay = cofgl.debugPanel.addDisplay 'FPS'
 
     @gl = makeGLContext canvas, @debug,
       antialias: false
@@ -129,7 +130,8 @@ class Engine
         requestAnimationFrame step
       else 
         dt = timestamp - lastTimestamp
-        @frameTimeDisplay.setText dt + 'ms'
+        #@frameTimeDisplay.setText dt + 'ms'
+        @FPSDisplay.setText Math.floor(1000/dt) + 'FPS'
         iterate dt / 1000.0
         lastTimestamp = timestamp
         requestAnimationFrame step

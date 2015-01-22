@@ -55,7 +55,7 @@
       this.canvas = canvas;
       this.throbber = $('<img src=assets/throbber.gif id=throbber>').appendTo('body').hide();
       this.throbberLevel = 0;
-      this.frameTimeDisplay = cofgl.debugPanel.addDisplay('Frame time');
+      this.FPSDisplay = cofgl.debugPanel.addDisplay('FPS');
       this.gl = makeGLContext(canvas, this.debug, {
         antialias: false
       });
@@ -162,7 +162,7 @@
           return requestAnimationFrame(step);
         } else {
           dt = timestamp - lastTimestamp;
-          _this.frameTimeDisplay.setText(dt + 'ms');
+          _this.FPSDisplay.setText(Math.floor(1000 / dt) + 'FPS');
           iterate(dt / 1000.0);
           lastTimestamp = timestamp;
           return requestAnimationFrame(step);

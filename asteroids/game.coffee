@@ -17,7 +17,8 @@ class Game
     @world = new cofgl.World(@spaceShip)
 
   initGame: ->
-    @processor = new cofgl.Processor cofgl.resmgr.resources['shaders/nothing']
+    #@processor = new cofgl.Processor cofgl.resmgr.resources['shaders/nothing']
+    @processor = new cofgl.Processor cofgl.resmgr.resources['shaders/postprocess']
     @geometries =
       euclidean:
         shader: cofgl.resmgr.resources['shaders/euclidean']

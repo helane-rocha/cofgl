@@ -27,7 +27,7 @@
 
     Game.prototype.initGame = function() {
       var gl;
-      this.processor = new cofgl.Processor(cofgl.resmgr.resources['shaders/nothing']);
+      this.processor = new cofgl.Processor(cofgl.resmgr.resources['shaders/postprocess']);
       this.geometries = {
         euclidean: {
           shader: cofgl.resmgr.resources['shaders/euclidean'],
