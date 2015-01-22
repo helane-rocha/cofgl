@@ -85,7 +85,10 @@ void main(void)
             return;
         }
     }
-    tex_glue(z, a, d, uTexture);
+    bool r=tex_glue(z, a, d, uTexture);
+    //if(!r) discard;
+    //if(tex_glue(z, a, d, uTexture)) return;
+    //else gl_FragColor = vec4(0.0,0.0,0.0,0.0);
 }
 
 #endif

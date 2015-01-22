@@ -52,7 +52,7 @@ void main(void)
     vec2 z=vCoord;
     vec2 d=udir;
     vec2 a=uq;
-    tex_glue(z,a,d,uTexture);
+    if(!tex_glue(z,a,d,uTexture)) discard;
 }
 
 #endif
